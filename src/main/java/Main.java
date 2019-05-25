@@ -4,6 +4,7 @@ import org.apache.log4j.LogManager;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.streaming.Duration;
+import org.apache.spark.streaming.Milliseconds;
 import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.twitter.TwitterUtils;
@@ -11,8 +12,12 @@ import twitter4j.Status;
 
 public class Main {
 
-    static String TWITTER_CONFIG_PATH = "SET YOUR TWITTER CFG FILE PATH HERE";
-    static String HADOOP_COMMON_PATH = "SET YOUR HADOOP COMMON FILE PATH HERE";
+    static String TWITTER_CONFIG_PATH;
+    static String HADOOP_COMMON_PATH = "";
+
+    static {
+        TWITTER_CONFIG_PATH = Main.class.getClassLoader().getResource("twitter_configuration.txt").getPath();
+    }
 
     public static void main(String[] args) throws Exception {
         System.setProperty("hadoop.home.dir", HADOOP_COMMON_PATH);
@@ -34,6 +39,10 @@ public class Main {
         else if (args[0].equals("exercise_3")) {
             Exercise_3.historicalAnalysis(tweets);
         }
+        else if (args[0].equals("exercise_3_m")) {
+            Exercise3_MapWithState.historicalAnalysis(tweets);
+        }
+
 
         jsc.start();
         jsc.awaitTermination();
