@@ -19,7 +19,7 @@ public class WordCountReduceByKeyAndWindow {
         System.setProperty("hadoop.home.dir", "");
         SparkConf conf = new SparkConf().setAppName("SparkStreamingTraining").setMaster("local[*]");
         JavaSparkContext ctx = new JavaSparkContext(conf);
-        JavaStreamingContext jsc = new JavaStreamingContext(ctx, new Duration(5000));
+        JavaStreamingContext jsc = new JavaStreamingContext(ctx, new Duration(1000));
         LogManager.getRootLogger().setLevel(Level.ERROR);
         LogManager.shutdown();
         jsc.checkpoint(Files.createTempDir().getAbsolutePath());
@@ -50,8 +50,8 @@ public class WordCountReduceByKeyAndWindow {
                     System.out.println("----------");
                     return accum - count;
                 },
-                new Duration(15000),
-                new Duration(10000)
+                new Duration(10000),
+                new Duration(5000)
 
         ).transformToPair(rdd -> {
             return rdd

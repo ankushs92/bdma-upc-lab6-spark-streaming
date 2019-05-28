@@ -13,7 +13,6 @@ import scala.Tuple2;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class WordCountUpdateStateByKey {
 

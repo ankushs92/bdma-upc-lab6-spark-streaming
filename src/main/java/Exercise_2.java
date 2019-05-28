@@ -1,12 +1,10 @@
 import org.apache.spark.streaming.Duration;
 import org.apache.spark.streaming.api.java.JavaDStream;
-import org.apache.spark.streaming.api.java.JavaPairDStream;
 import scala.Tuple2;
 import twitter4j.Status;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class Exercise_2 {
 
@@ -24,7 +22,7 @@ public class Exercise_2 {
                             return x - y;
                         },
                         new Duration(10000),
-                        new Duration(2000)
+                        new Duration(5000)
                 )
                 .mapToPair(tuple -> tuple.swap())
                 .transformToPair(rdd -> {

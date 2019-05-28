@@ -5,16 +5,12 @@ import scala.Tuple2;
 import twitter4j.Status;
 
 import java.util.Arrays;
-import java.util.List;
-
-import java.util.stream.Collectors;
 
 public class Exercise_3 {
 
     public static void historicalAnalysis(JavaDStream<Status> statuses) {
-                                                            statuses
-                                                            .filter(status -> status.getText().contains("#") && (status.getLang().equalsIgnoreCase("en") || status.getLang().equalsIgnoreCase("english")))
-
+          JavaPairDStream<Object, String> commonStream = statuses
+                                                            .filter(status -> (status.getLang().equalsIgnoreCase("en") || status.getLang().equalsIgnoreCase("english")))
                                                             .flatMap(status ->  Arrays.asList(status.getText().split(" ")).iterator())
                                                             .filter(string -> string.contains("#"))
                                                             .mapToPair(hashTag -> {
@@ -34,16 +30,26 @@ public class Exercise_3 {
                                                                 return rdd
                                                                         .mapToPair(tuple -> tuple.swap())
                                                                         .sortByKey(false);
-                                                            })
-                                                            .foreachRDD(rdd -> {
-                                                                System.out.println("============");
-                                                                rdd.take(1).forEach(element -> {
-                                                                    System.out.println(element.swap());
-                                                                });
+                                                            }).cache();
 
-                                                                System.out.println("============");
 
-                                                            });
+        //Median hashtag
+
+        //For top 10
+        commonStream.foreachRDD( rdd -> {
+            rdd.take(10).forEach(element -> {
+                   System.out.println(element.swap());
+            });
+        });
+//                                                            .foreachRDD(rdd -> {
+//                                                                System.out.println("============");
+//                                                                rdd.take(1).forEach(element -> {
+//                                                                    System.out.println(element.swap());
+//                                                                });
+//
+//                                                                System.out.println("============");
+//
+//                                                            });
 
 
 

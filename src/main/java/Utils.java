@@ -1,9 +1,12 @@
-import java.io.FileReader;
-import java.util.HashMap;
-import java.util.Properties;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+
+import java.io.FileReader;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Properties;
+import java.util.stream.Collectors;
 
 public class Utils {
 
@@ -47,6 +50,23 @@ public class Utils {
             System.out.println("\tProperty " + key + " set as [" + value + "]");
         }
         System.out.println();
+    }
+
+    public static void main(String[] args) {
+        List<String> list = Arrays.asList("Hello", " my", " name ", " is ", " Ankush");
+        String result = "";
+        for(String l : list) {
+            result+= l;
+        }
+        System.out.println(result);
+
+
+        String name = String.join("", list);
+        System.out.println(name);
+
+
+        String complicated = list.stream().collect(Collectors.joining(""));
+        System.out.println(complicated);
     }
 
 }
